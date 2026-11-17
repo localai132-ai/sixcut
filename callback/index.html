@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Connected — SIXCUT</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap" style="text-align:center">
+  <header style="justify-content:center"><img src="../logo.png" alt="SIXCUT logo"><a href="../">SIXCUT</a></header>
+  <h1 style="font-size:34px;letter-spacing:2px" id="title">Almost done</h1>
+  <p id="msg">Copy this page's full address and paste it into the SIXCUT login window on your Mac.</p>
+  <p><button id="copy">Copy address</button></p>
+  <p class="muted" id="done"></p>
+</div>
+<script>
+  // Nothing is sent anywhere: the authorization code stays in this page's address bar until you copy it.
+  const q = new URLSearchParams(location.search);
+  if (q.get('error')) {
+    document.getElementById('title').textContent = 'Not connected';
+    document.getElementById('msg').textContent = 'The platform returned: ' + (q.get('error_description') || q.get('error'));
+  }
+  document.getElementById('copy').onclick = async () => {
+    try { await navigator.clipboard.writeText(location.href); document.getElementById('done').textContent = 'Copied ✔ — paste it in the terminal.'; }
+    catch { document.getElementById('done').textContent = 'Select the address bar and copy it manually.'; }
+  };
+</script>
+</body>
+</html>
